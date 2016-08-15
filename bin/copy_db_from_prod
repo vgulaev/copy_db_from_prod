@@ -2,4 +2,50 @@
 
 require 'copy_db_from_prod'
 
-CopyDbFromProd.hi
+def echo_wrong_args
+  puts("Wrong args")
+end
+
+def echo_help
+  puts("copy_db_from_prod -h <host> -u <user>")
+end
+
+def schema_only(params)
+  p = CopyDbFromProd.new(params)
+  puts(p.download_schema)
+end
+
+class Wraper
+  attr_accessor :shell_args, :host, :user
+
+  def initialize(args)
+    @shell_args = args
+    shell_args.each_with_index do |e, i|
+      if '-h' == e
+        @host = shell_args[i + 1] if '-' != shell_args[i + 1][0]
+      elsif '-u' == e
+        @user = shell_args[i + 1] if '-' != shell_args[i + 1][0]
+      end
+    end
+  end
+
+  def include?(one)
+    @exec ||= shell_args.include?(one)
+    shell_args.include?(one)
+  end
+
+  def exec?
+    @exec
+  end
+end
+
+w = Wraper.new(ARGV)
+
+if ARGV.empty?
+  echo_help
+else
+  schema_only(w) if w.include?('--schema-only')
+  CopyDbFromProd.hi if w.include?('--hi')
+  echo_help if w.include?('--help')
+  echo_wrong_args if !w.exec?
+end

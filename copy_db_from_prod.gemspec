@@ -12,4 +12,5 @@ Gem::Specification.new do |spec|
   spec.license     = 'MIT'
 
   spec.add_runtime_dependency('net-ssh')
+  spec.add_runtime_dependency('pg')
 end

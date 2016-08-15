@@ -7,16 +7,19 @@ def echo_wrong_args
 end
 
 def echo_help
-  puts("copy_db_from_prod -h <host> -u <user>")
+  puts("copy_db_from_prod -h <host> -u <user> -p <path>
+    <user> - default 'deploy'
+    <path> - default '/projects/insales3', without / at the end")
 end
 
 def schema_only(params)
   p = CopyDbFromProd.new(params)
-  puts(p.download_schema)
+  p.load_schema
+  puts('Load schema success')
 end
 
 class Wraper
-  attr_accessor :shell_args, :host, :user
+  attr_accessor :shell_args, :host
 
   def initialize(args)
     @shell_args = args
@@ -25,6 +28,8 @@ class Wraper
         @host = shell_args[i + 1] if '-' != shell_args[i + 1][0]
       elsif '-u' == e
         @user = shell_args[i + 1] if '-' != shell_args[i + 1][0]
+      elsif '-p' == e
+        @path = shell_args[i + 1] if '-' != shell_args[i + 1][0]
       end
     end
   end
@@ -36,6 +41,14 @@ class Wraper
 
   def exec?
     @exec
+  end
+
+  def user
+    @user ||= 'deploy'
+  end
+
+  def path
+    @path ||= '/projects/insales3'
   end
 end
 

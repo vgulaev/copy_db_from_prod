@@ -1,2 +1,4 @@
 copy_db_from_prod-*.gem
 debug.rb
+hw.rb
+test.sql

@@ -7,7 +7,7 @@ def echo_wrong_args
 end
 
 def echo_help
-  puts("copy_db_from_prod -h <host> -u <user> -p <path>
+  puts("copy_db_from_prod -h <host> -u <user> -p <path> --schema-only
     <user> - default 'deploy'
     <path> - default '/projects/insales3', without / at the end")
 end

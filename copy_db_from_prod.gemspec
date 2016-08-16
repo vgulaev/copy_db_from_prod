@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name        = 'copy_db_from_prod'
-  spec.version     = '0.0.1'
+  spec.version     = '0.0.2'
   spec.date        = '2016-08-15'
   spec.summary     = "Hola!"
   spec.description = "A simple hello world gem"

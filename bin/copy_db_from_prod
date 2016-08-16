@@ -7,7 +7,7 @@ def echo_wrong_args
 end
 
 def echo_help
-  puts("copy_db_from_prod -h <host> -u <user> -p <path> --schema-only
+  puts("copy_db_from_prod -h <host> -u <user> -p <path> [--schema-only, --env_data, -acc_data]
     <user> - default 'deploy'
     <path> - default '/projects/insales3', without / at the end")
 end
@@ -16,6 +16,12 @@ def schema_only(params)
   p = CopyDbFromProd.new(params)
   p.load_schema
   puts('Load schema success')
+end
+
+def env_data(params)
+  p = CopyDbFromProd.new(params)
+  p.load_env_table  
+  puts('Load env tables data')
 end
 
 class Wraper
@@ -58,6 +64,7 @@ if ARGV.empty?
   echo_help
 else
   schema_only(w) if w.include?('--schema-only')
+  env_data(w) if w.include?('--env_data')
   CopyDbFromProd.hi if w.include?('--hi')
   echo_help if w.include?('--help')
   echo_wrong_args if !w.exec?
